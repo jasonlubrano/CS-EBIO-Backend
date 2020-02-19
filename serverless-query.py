@@ -27,7 +27,7 @@ dbuser=environ.get('DBUSER')
 password=environ.get('DBPASSWORD')
 database=environ.get('DATABASE')
 
-query="SELECT * FROM public.applesprimary"
+query="select TreeTagId, genetics,  species, finalCultivar, synonymText,   isConfirmed,   use, country,   genotypes,   property,  location,   TRUNC(CAST(lattitude as numeric),2),   TRUNC(CAST(longitude as numeric), 2), height,   dripline,   diameter,   fireBlight,  fruitHanging FROM public.applesprimary"
 
 logger=logging.getLogger()
 logger.setLevel(logging.INFO)
@@ -89,4 +89,3 @@ def handler(event,context):
 
 if __name__== "__main__":
     handler(None,None)
-
