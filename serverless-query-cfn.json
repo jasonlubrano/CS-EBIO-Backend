@@ -2,6 +2,11 @@
 {
   "Description":"Create Lambda function to query a database and the API Gateway REST API to invoke the function",
 
+  "headers": {
+      "origin": "*",
+      "allowCredentials": "False"
+  },
+
   "Parameters": {
 
      "PEndpoint": {
@@ -183,6 +188,29 @@
             "MethodResponses": [{ "StatusCode": 200 }]
          }
      },
+
+      "ServerlessQueryApiPOST": {
+         "Description": "Create ServerlessQueryApiResource Method",
+         "DependsOn": "LambdaInvokePermission",
+         "Type": "AWS::ApiGateway::Method",
+         "Properties": {
+            "AuthorizationType": "NONE",
+            "HttpMethod": "POST",
+            "Integration": {
+               "Type": "AWS_PROXY",
+               "IntegrationHttpMethod": "POST",
+               "Uri": {"Fn::Join" : ["",
+                  ["arn:aws:apigateway:", {"Ref": "AWS::Region"}, ":lambda:path/2015-03-31/functions/",{"Fn::GetAtt":["ServerlessQueryLambdaFunction", "Arn"]}, "/invocations"]
+                  ]},
+               "IntegrationResponses": [{
+                  "StatusCode": 200
+               }]
+            },
+            "ResourceId": {"Ref": "ServerlessQueryApiResource"},
+            "RestApiId": {"Ref": "ServerlessQueryApi"},
+            "MethodResponses": [{ "StatusCode": 200 }]
+         }
+      },
 
      "ServerlessQueryApiDeploy": {
         "Description": "Deploy ServerlessQueryApi",
