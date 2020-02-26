@@ -27,7 +27,7 @@ dbuser=environ.get('DBUSER')
 password=environ.get('DBPASSWORD')
 database=environ.get('DATABASE')
 
-query="select TreeTagId, genetics,  species, finalCultivar, synonymText,   isConfirmed,   use, country,   genotypes,   property,  location,   TRUNC(CAST(lattitude as numeric),2),   TRUNC(CAST(longitude as numeric), 2), height,   dripline,   diameter,   fireBlight,  fruitHanging FROM public.applesprimary"
+query="select TreeTagId, genetics,  species, finalCultivar, synonymText,   isConfirmed,   use, country,   genotypes,   property,  location,   TRUNC(CAST(lattitude as numeric),4),   TRUNC(CAST(longitude as numeric), 4), height,   dripline,   diameter,   fireBlight,  fruitHanging FROM public.applesprimary"
 
 logger=logging.getLogger()
 logger.setLevel(logging.INFO)
