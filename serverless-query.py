@@ -19,6 +19,7 @@
 import psycopg2
 import logging
 import traceback
+import json
 from os import environ
 
 endpoint=environ.get('ENDPOINT')
@@ -27,7 +28,7 @@ dbuser=environ.get('DBUSER')
 password=environ.get('DBPASSWORD')
 database=environ.get('DATABASE')
 
-query="select TreeTagId, genetics,  species, finalCultivar, synonymText,   isConfirmed,   use, country,   genotypes,   property,  location,   TRUNC(CAST(lattitude as numeric),4),   TRUNC(CAST(longitude as numeric), 4), height,   dripline,   diameter,   fireBlight,  fruitHanging FROM public.applesprimary"
+query="select TreeTagId, genetics,  species, finalCultivar, synonymText,   isConfirmed,   use, country,   genotypes,   property,  location,   CAST(TRUNC(CAST(lattitude as numeric),4) as float8),   CAST(TRUNC(CAST(longitude as numeric), 4) as float8), height,   dripline,   diameter,   fireBlight,  fruitHanging FROM public.applesprimary"
 
 logger=logging.getLogger()
 logger.setLevel(logging.INFO)
@@ -62,7 +63,12 @@ def handler(event,context):
 
         try:
             results_list=[]
-            for result in cursor: results_list.append(result)
+            dict_keys=["tree_tag_id","genetics","species","finalCultivar","synonym","isConfirmed","use","country","genotypes","propertyOwner","treeSiteLocation", "treeLatitude","treeLongitude","treeHeight","treeDripLine","trunkDiameter","fireBlight","fruitHanging"]
+            for result in cursor: 
+                temp ={}
+                for i in range(0,len(result)-1):
+                    temp.update({dict_keys[i]:str(result[i])})
+                results_list.append(temp)
             print(results_list)
             cursor.close()
 
@@ -71,7 +77,7 @@ def handler(event,context):
                 traceback.format_exc()))
 
 
-        return {"body": str(results_list), "headers": {}, "statusCode": 200,
+        return {"body": json.dumps(results_list), "headers": {}, "statusCode": 200,
         "isBase64Encoded":"false"}
 
     
