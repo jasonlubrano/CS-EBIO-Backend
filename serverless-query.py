@@ -66,7 +66,7 @@ def handler(event,context):
             dict_keys=["tree_tag_id","genetics","species","finalCultivar","synonym","isConfirmed","use","country","genotypes","propertyOwner","treeSiteLocation", "treeLatitude","treeLongitude","treeHeight","treeDripLine","trunkDiameter","fireBlight","fruitHanging"]
             for result in cursor: 
                 temp ={}
-                for i in range(0,len(result)-1):
+                for i in range(0,len(result)):
                     temp.update({dict_keys[i]:str(result[i])})
                 results_list.append(temp)
             print(results_list)
