@@ -70,10 +70,10 @@ def handler(event,context):
                 query = query + " and TreeTagId = " + TTI
         if(Country!=""):
             if(flag==0):
-                query = query + " WHERE country = " + Country
+                query = query + " WHERE country = '" + Country + "'"
                 flag = 1
             else:
-                query = query + " and country = " + Country
+                query = query + " and country = '" + Country + "'"
         if(DriplineMax!=""):
             if(flag==0):
                 query = query + " WHERE dripline < " + DriplineMax
@@ -88,10 +88,10 @@ def handler(event,context):
                 query = query + " and dripline > " + DriplineMin
         if(FinalCultivar!=""):
             if(flag==0):
-                query = query + " WHERE finalCultivar = " + FinalCultivar
+                query = query + " WHERE finalCultivar = '" + FinalCultivar + "'"
                 flag = 1
             else:
-                query = query + " and finalCultivar = " + FinalCultivar
+                query = query + " and finalCultivar = '" + FinalCultivar + "'"
         if(FruitDiameterMax!=""):
             if(flag==0):
                 query = query + " WHERE diameter < " + FruitDiameterMax
